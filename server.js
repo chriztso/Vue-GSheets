@@ -3,6 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var addRow = require('./spreadsheet.js').addRow;
 var getRows = require('./spreadsheet.js').getRows;
+var deleteRowsByFirstName = require('./spreadsheet.js').deleteRowsByFirstName;
 
 var port = 3000; 
 
@@ -27,7 +28,16 @@ app.post('/users', (req, res) => {
         }
         res.status(200).send(data);
     })
-    
+})
+
+app.delete('/deleteUser', (req, res) => {
+    deleteRowsByFirstName(req.body.firstName,  (err, data) => {
+        if(err){
+            res.status(404).send(err);
+            return;
+        }
+        res.status(200).send(data);
+    })
 })
 
 app.listen(port, () => {console.log('listening at 3000')});
