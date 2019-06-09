@@ -29,5 +29,24 @@ function addRow(first, last, phone, cb){
   })
 }
 
+function getRows(cb){
+  getInfoAsync()
+  .then((data) => {
+      var sheet = data.worksheets[0];
+      var getRowsAsync = promisify(sheet.getRows);
+      getRowsAsync()
+      .then((data) => {
+          cb(null, data)
+      })
+      .catch((err) => {
+          cb(err, null);
+      })
+  }) 
+  .catch((err) => {
+      cb(err, null);
+  }) 
+}
+
 
 exports.addRow = addRow;
+exports.getRows = getRows;
