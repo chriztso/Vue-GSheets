@@ -27,6 +27,9 @@ import axios from 'axios';
             })
             .then(() => {
                 console.log('added');
+                this.first = '', 
+                this.last = '', 
+                this.phone = ''
             })
             .catch((err) => {
                 console.log(err);
