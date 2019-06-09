@@ -56,13 +56,13 @@ function deleteRowsByFirstName(firstName, cb){
             query : `first  = ${firstName}`
         })
         .then((data) => {
-            data[0].del((err, data) => {
-                if(err){
-                  cb(err, null);
-                  return;
-                }
-                cb(null, data)
-            });
+            data[0].del()
+            .then(() => {
+                cb(null, data);
+            })
+            .catch((err) => {
+                cb(err, null);
+            })
         })
         .catch((err) => {
             console.log(err);
