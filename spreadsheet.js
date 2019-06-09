@@ -47,6 +47,33 @@ function getRows(cb){
   }) 
 }
 
+function deleteRowsByFirstName(firstName, cb){
+    getInfoAsync()
+    .then((data) => {
+        var sheet = data.worksheets[0];
+        var getRowsAsync = promisify(sheet.getRows);
+        getRowsAsync({
+            query : `first  = ${firstName}`
+        })
+        .then((data) => {
+            data[0].del((err, data) => {
+                if(err){
+                  cb(err, null);
+                  return;
+                }
+                cb(null, data)
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
 
 exports.addRow = addRow;
 exports.getRows = getRows;
+exports.deleteRowsByFirstName = deleteRowsByFirstName;
