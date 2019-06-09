@@ -6,6 +6,11 @@
         Phone Number: <input type = 'text' v-model = "phone">
         <input type = 'submit' value = 'Enter info'  v-on:click = "addInfo">
     </div>
+    <div>
+      Delete by first name:  <input type = 'text' v-model = 'deleteFirst'>
+      <input type = 'submit' value = 'Delete info' v-on:click = 'deleteInfo'>
+    </div>
+
     Recently Added Users:
     <div v-for = 'user in users'>
         <div class = 'userOne'>
@@ -27,6 +32,7 @@ import axios from 'axios';
         last : '', 
         phone : '', 
         users : '',
+        deleteFirst : ''
       }
     },
     mounted(){
@@ -53,6 +59,19 @@ import axios from 'axios';
             axios.get('/users')
             .then((data) => {
                 this.users = data.data;
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        }, 
+        deleteInfo(){
+            axios.delete('/deleteUser', 
+            {
+                data: {firstName : this.deleteFirst}
+            })
+            .then((data) => {
+                console.log('DONE')
+                this.getInfo();
             })
             .catch((err) => {
                 console.log(err);
